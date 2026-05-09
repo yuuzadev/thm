@@ -1,7 +1,5 @@
-# TryHackMe Write-ups
+# tryhackme
 
-This is a collection of write-ups for CTF challenges and stuff by me.
+Write-ups and notes for TryHackMe rooms.
 
-## Index
-
-* [MD2PDF](https://github.com/yuuzacode/THM-Write-Ups/tree/main/md2pdf)
+- [MD2PDF](https://github.com/yuuzacode/THM-Write-Ups/tree/main/md2pdf)

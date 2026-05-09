@@ -182,3 +182,11 @@ gobuster dir -u http://(target-ip) -w /usr/share/wordlists/dirbuster/directory-l
 
 *注:*  
 什么是SSRF？（服务器端请求伪造）——这是一种计算机安全漏洞，攻击者可借此从存在漏洞的服务器向内部或外部系统乃至服务器自身发送请求。
+
+
+<details>
+  <summary>Click to view in Chinese (点击查看中文版)</summary>
+  
+  ## 概述
+  这是我为 MD2PDF 撰写的报告...
+</details>

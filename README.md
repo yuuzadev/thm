@@ -1,6 +1,6 @@
-# THM Write-ups
+# TryHackMe Write-ups
 
-This is a collection of write-ups for CTF challenges and stuff by me. If any of my write-ups helped you, please leave a star! :)
+This is a collection of write-ups for CTF challenges and stuff by me.
 
 ## Index
 

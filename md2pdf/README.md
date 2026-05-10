@@ -1,4 +1,4 @@
-# TryHackMe MD2PDF Write-up | 报告
+# MD2PDF Write-up | 报告
 
 > I used the TryHackMе AttackBox for this room   
 <details>
@@ -25,13 +25,13 @@
 获取目标IP地址后，我们可以利用Nmap对其进行扫描以查找开放端口。
 
 ```bash
-nmap (target-ip)
+nmap 10.82.178.215
 ```
 
 <img width="1446" height="519" alt="изображение" src="https://github.com/user-attachments/assets/0c83633f-3fd2-4926-a841-8caedcd42ebf" />
 
 如您所见，我们有3个开放端口：80（Web）、22（SSH）、5000。现在我们可以检查这些端口上运行着哪些服务。  
-在浏览器中输入：```http://(目标IP):80``` 即可访问80端口的网站。
+在浏览器中输入：```http://10.82.178.215:80``` 即可访问80端口的网站。
 
 <img width="485" height="73" alt="изображение" src="https://github.com/user-attachments/assets/942ae915-6fe3-4222-9871-67c70735bfd0" />
 
@@ -40,12 +40,12 @@ nmap (target-ip)
 <img width="1218" height="530" alt="изображение" src="https://github.com/user-attachments/assets/1cf41027-478c-45be-8f8e-39a7bc9025d7" />
 <img width="1113" height="602" alt="изображение" src="https://github.com/user-attachments/assets/92c504df-75d5-4a0c-a186-7743aa78095d" />
 
-现在让我们检查5000端口：```http://(目标IP):5000```  
+现在让我们检查5000端口：```http://10.82.178.215:5000```  
 
 <img width="500" height="242" alt="изображение" src="https://github.com/user-attachments/assets/c6da6576-8d43-429e-a40f-ac6d6edc60b5" />
 
 此页面与前一页类似，但“转换为PDF”按钮无法响应。  
-22端口呢？在```http://(目标IP):22```之后出现错误，所以不需要它。我忘了截屏。
+22端口呢？在```http://10.82.178.215:22```之后出现错误，所以不需要它。我忘了截屏。
 
 ### 枚举
 
@@ -54,19 +54,19 @@ nmap (target-ip)
 我执行了以下命令:  
 
 ```bash
-gobuster dir -u http://(target-ip) -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt
+gobuster dir -u http://10.82.178.215 -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt
 ```
 
 执行命令后，我们得到以下输出： 
 
 <img width="724" height="411" alt="изображение" src="https://github.com/user-attachments/assets/4bee595f-26b6-43a8-a60e-a0356ed99aea" />
 
-它显示存在两个隐藏目录：“/admin” 和 “/convert”。现在我们可以尝试访问这些页面。```http://(目标IP)/admin```  
+它显示存在两个隐藏目录：“/admin” 和 “/convert”。现在我们可以尝试访问这些页面。```http://10.82.178.215/admin```  
 
 <img width="480" height="188" alt="изображение" src="https://github.com/user-attachments/assets/74e785b4-6a94-49c5-bc10-8988d908f980" />
  
 访问/admin页面后，提示该页面被禁止访问，仅限本地主机通过5000端口（localhost:5000）访问。这是重要信息。那么/convert页面呢？
-```http://(目标IP)/convert```
+```http://10.82.178.215/convert```
 
 <img width="504" height="182" alt="изображение" src="https://github.com/user-attachments/assets/eaeae537-20cd-4065-8676-5e20935d147a" />
 
@@ -115,13 +115,13 @@ I divided it into three steps:
 After getting target IP-address, we can scan it to search for open ports using Nmap.  
 
 ```bash
-nmap (target-ip)
+nmap 10.82.178.215
 ```
 
 <img width="1446" height="519" alt="изображение" src="https://github.com/user-attachments/assets/0c83633f-3fd2-4926-a841-8caedcd42ebf" />
 
 As you can see, we got 3 open ports: 80 (web), 22 (ssh), 5000. Now we can check what services are running on these ports.  
-Type: ```http://(target-ip):80``` in your browser to go to the site with 80 port.  
+Type: ```http://10.82.178.215:80``` in your browser to go to the site with 80 port.  
 
 <img width="485" height="73" alt="изображение" src="https://github.com/user-attachments/assets/942ae915-6fe3-4222-9871-67c70735bfd0" />
 
@@ -130,12 +130,12 @@ After going to this site, we see a form that gets a text, then after you press t
 <img width="1218" height="530" alt="изображение" src="https://github.com/user-attachments/assets/1cf41027-478c-45be-8f8e-39a7bc9025d7" />
 <img width="1113" height="602" alt="изображение" src="https://github.com/user-attachments/assets/92c504df-75d5-4a0c-a186-7743aa78095d" />
 
-Now let's check 5000 port: ```http://(target-ip):5000```  
+Now let's check 5000 port: ```http://10.82.178.215:5000```  
 
 <img width="500" height="242" alt="изображение" src="https://github.com/user-attachments/assets/c6da6576-8d43-429e-a40f-ac6d6edc60b5" />
 
 This page is similiar to the previous one, but the "Convert to PDF" button was unresponsive.  
-What about 22? After ```http://(target-ip):22``` we get an error, so we don't need it. I forgot to take a screenshoot.  
+What about 22? After ```http://10.82.178.215:22``` we get an error, so we don't need it. I forgot to take a screenshoot.  
 
 ### Enumeration 
 
@@ -144,19 +144,19 @@ I used Gobuster to find hidden directories on the web server.
 I ran the following command:  
 
 ```bash
-gobuster dir -u http://(target-ip) -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt
+gobuster dir -u http://10.82.178.215 -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt
 ```
 
 After the command we have an output:  
 
 <img width="724" height="411" alt="изображение" src="https://github.com/user-attachments/assets/4bee595f-26b6-43a8-a60e-a0356ed99aea" />
 
-It says that there's 2 hidden drectories, "/admin" and "/convert". Now we can try to go to these pages. ```http://(target-ip)/admin```  
+It says that there's 2 hidden drectories, "/admin" and "/convert". Now we can try to go to these pages. ```http://10.82.178.215/admin```  
 
 <img width="480" height="188" alt="изображение" src="https://github.com/user-attachments/assets/74e785b4-6a94-49c5-bc10-8988d908f980" />
 
 After going to the /admin page, it says that it is forbidden and can be seen only by localhost:5000 (port 5000). This is an important information. What about /convert?
-```http://(target-ip)/convert```  
+```http://10.82.178.215/convert```  
 
 <img width="504" height="182" alt="изображение" src="https://github.com/user-attachments/assets/eaeae537-20cd-4065-8676-5e20935d147a" />
 

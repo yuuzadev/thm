@@ -1,12 +1,12 @@
 # MD2PDF Write-up | 报告
-
+> I used TryHackMe AttackBox for this room.
 <details>
   <summary>Click to view in Chinese (点击查看中文版)</summary>
   
-## 中文：  
-
+## 中文:
+> 我在这个房间使用了 TryHackMe 的 AttackBox。
 ## 概述
-  
+
 这是我为[MD2PDF](https://tryhackme.com/room/md2pdf) 房间 撰写的报告。目标是利用一个将文本转换为PDF的网络应用程序，从而访问包含旗帜的受限页面。  
 
 我将其分为三个步骤：
@@ -86,7 +86,7 @@ gobuster dir -u http://10.82.178.215 -w /usr/share/wordlists/dirbuster/directory
 <img width="613" height="141" alt="изображение" src="https://github.com/user-attachments/assets/0438ea21-e191-4c42-81d6-fece099e52f9" />
 
 ```127.0.0.1``` 始终是本地主机的 IP，这就是为什么我们使用它  
-该PDF文件显示了localhost:5000/admin页面的内容，从而揭示了密钥。
+该PDF文件显示了```127.0.0.1:5000/admin```页面的内容，从而揭示了密钥。
 
 ## 3. 结论
 
@@ -94,10 +94,10 @@ gobuster dir -u http://10.82.178.215 -w /usr/share/wordlists/dirbuster/directory
 * 影响：这使得攻击者能够访问内部服务（如5000端口）并获取信息（即标志）
 * 修复建议：对用户输入进行严格过滤，并为允许的URL协议实施白名单机制。
 
-*注:*  
+> 注:  
 什么是SSRF？（服务器端请求伪造）——这是一种计算机安全漏洞，攻击者可借此从存在漏洞的服务器向内部或外部系统乃至服务器自身发送请求。
 </details>
-    
+
 
 ## Overview
 
@@ -180,7 +180,7 @@ I injected an iframe pointing to the restricted page into the form:
 
 ```127.0.0.1``` is always a local host's IP, this is why we using it.
 
-The PDF displayed the contents of the localhost:5000/admin page, revealing the flag.  
+The PDF displayed the contents of the ```127.0.0.1:5000/admin``` page, revealing the flag.  
 
 ## 3. Conclusion
 
@@ -188,6 +188,5 @@ The PDF displayed the contents of the localhost:5000/admin page, revealing the f
 * Impact: This allowed an attacker to access internal services (like on port 5000) and retrieve information (the flag)
 * Mitigation: Sanitize user input and implement a whitelist for allowed URL schemes.  
 
-*Note:*  
-What's SSRF? (Server-side request forgery) - it's a computer security vulnerability that enables an attacker to send requests from a vulnerable server to internal or external systems or the server itself.  
-
+> Note:
+What's SSRF? (Server-side request forgery) - it's a computer security vulnerability that enables an attacker to send requests from a vulnerable server to internal or external systems or the server itself.

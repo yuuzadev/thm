@@ -59,7 +59,9 @@ gobuster dir -u http://10.82.178.215 -w /usr/share/wordlists/dirbuster/directory
 <img width="960" height="539" alt="изображение" src="https://github.com/user-attachments/assets/c938320a-890c-47cc-99d2-587aecdcfad0" />
 
 
-它显示存在两个隐藏目录：```/admin``` 和 ```/convert```。现在我们可以尝试访问这些页面。```http://10.82.178.215/admin```  
+它显示存在两个隐藏目录：```/admin``` 和 ```/convert```。现在我们可以尝试访问这些页面。
+
+```http://10.82.178.215/admin```  
 
 <img width="480" height="188" alt="изображение" src="https://github.com/user-attachments/assets/74e785b4-6a94-49c5-bc10-8988d908f980" />
  
@@ -94,10 +96,8 @@ gobuster dir -u http://10.82.178.215 -w /usr/share/wordlists/dirbuster/directory
 * 影响：这使得攻击者能够访问内部服务（如5000端口）并获取信息（即标志）
 * 修复建议：对用户输入进行严格过滤，并为允许的URL协议实施白名单机制。
 
-> 注:  
-什么是SSRF？（服务器端请求伪造）——这是一种计算机安全漏洞，攻击者可借此从存在漏洞的服务器向内部或外部系统乃至服务器自身发送请求。
+> 注: 什么是SSRF？（服务器端请求伪造）——这是一种计算机安全漏洞，攻击者可借此从存在漏洞的服务器向内部或外部系统乃至服务器自身发送请求。
 </details>
-
 
 ## Overview
 

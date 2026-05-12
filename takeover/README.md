@@ -143,7 +143,7 @@ Let's go back to the warning page at ```https://support.futurevera.thm```:
 
 <img width="882" height="795" alt="изображение" src="https://github.com/user-attachments/assets/158d27cf-2dc3-49d6-b4cb-0757193b7c2a" />
 
-Press the "View Certificate" button, then find the DNS Name:
+Press the "**View Certificate**" button, then find the DNS Name:
 
 <img width="800" height="718" alt="изображение" src="https://github.com/user-attachments/assets/d7f070f3-2436-4138-b084-b66717cc973c" />
 
@@ -155,7 +155,7 @@ After that we can check ```https://secrethelpdesk934752.support.futurevera.thm``
 
 <img width="1233" height="871" alt="изображение" src="https://github.com/user-attachments/assets/073dd83f-1614-4f1b-bdfc-463c710b163a" />
 
-Nothing here. We should remove the 's' letter in `https`, and we'll see ```http://secrethelpdesk934752.support.futurevera.thm``` page:
+Nothing here. We should remove the 's' letter in `https`, to go to ```http://secrethelpdesk934752.support.futurevera.thm``` page:
 
 <img width="1219" height="700" alt="изображение" src="https://github.com/user-attachments/assets/9bd20e22-4c92-49cc-a9a6-ad17c4cc4780" />
 

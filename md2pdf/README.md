@@ -124,7 +124,7 @@ nmap 10.82.178.215
 We got 3 open ports: 80, 22, 5000. Now we can check what services are running on these ports.  
 Type: ```http://10.82.178.215:80``` in your browser to go to the site.
 
-We see a form that gets a text, then after you press the "Convert to PDF" button, it redirects you to the site with PDF text page.  
+We see a form that gets a text, then after you press the "**Convert to PDF**" button, it redirects you to the site with PDF text page.  
 
 <img width="1218" height="530" alt="изображение" src="https://github.com/user-attachments/assets/1cf41027-478c-45be-8f8e-39a7bc9025d7" />
 <img width="1113" height="602" alt="изображение" src="https://github.com/user-attachments/assets/92c504df-75d5-4a0c-a186-7743aa78095d" />
@@ -133,7 +133,7 @@ Let's check 5000 port: ```http://10.82.178.215:5000```
 
 <img width="500" height="242" alt="изображение" src="https://github.com/user-attachments/assets/c6da6576-8d43-429e-a40f-ac6d6edc60b5" />
 
-This page is similiar to the previous one, but the "Convert to PDF" button was unresponsive.  
+This page is similiar to the previous one, but the "**Convert to PDF**" button was unresponsive.  
 
 ### Enumeration 
 
@@ -154,7 +154,7 @@ It says that there's 2 hidden drectories, `/admin` and `/convert`. Now we can tr
 
 <img width="480" height="188" alt="изображение" src="https://github.com/user-attachments/assets/74e785b4-6a94-49c5-bc10-8988d908f980" />
 
-After going to the `/admin` page, it says that it is forbidden and can be seen only by localhost:5000 (port 5000). This is an important information. What about ```/convert```?
+After going to the `/admin` page, it says that it is forbidden and can be seen only by localhost:5000 (port 5000). This is an important information. Let's see ```/convert```:
 
 ```http://10.82.178.215/convert```  
 

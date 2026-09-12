@@ -75,7 +75,7 @@ dig MACHINE_IP
 ```
 <img width="1138" height="370" alt="image" src="https://github.com/user-attachments/assets/7beb3598-d8fa-465d-a807-ce60febf484a" />
 
-There's 4 sections of data in DNS:
+In DNS there's 4 sections of data:
 
 | Section | Purpose |
 |----------|----------|

@@ -5,13 +5,17 @@
 
 ---
 
-这是我对 [Silver Platter](https://tryhackme.com/room/silverplatter) 房间的write-up。这是一个CTF挑战题，我们将深入Web服务器，通过SSH寻找隐藏的flag。
+这是我对 [Silver Platter](https://tryhackme.com/room/silverplatter) 房间的write-up。
 
-我们需要找到用户flag和root flag。
+# 概述
 
-## 侦察
+这是一个CTF挑战题，我们将深入Web服务器，通过SSH寻找隐藏的flag。我们需要找到用户flag和root flag。
+
+# 侦察
 
 获取到IP地址后，我使用Nmap工具扫描了开放端口：
+
+Nmap（Network Mapper）是一款免费、开源的网络扫描工具，用于主机发现、端口扫描、服务检测、操作系统指纹识别和安全审计。
 
 ```
 nmap -sC -sV MACHINE_IP
@@ -49,7 +53,7 @@ nmap -sC -sV MACHINE_IP
 
 我们唯一知道的就是"scr1ptkiddy"这个用户名存在于Silverpeas上。没有更多信息了。我们必须找到该服务的漏洞，以便继续推进。
 
-## 漏洞利用
+# 漏洞利用
 
 我在Google上搜索了"silverpeas vulnerabilities"，找到了**CVE-2024-36042 "Silverpeas authentication bypass"**。这正是我们需要的，因为我们有用户名，而这个CVE允许我们在没有密码的情况下登录。
 
@@ -86,13 +90,15 @@ Login=scr1ptkiddy&DomainId=0
 
 然后发送请求，再关闭拦截。
 
-<img width="1897" height="691" alt="image" src="https://github.com/user-attachments/assets/0bd7913d-d9da-452c-8578-74cec92875ca" />
-
 现在我们已作为scr1ptkiddy登录到Silverpeas。
 
-<img width="1875" height="751" alt="image" src="https://github.com/user-attachments/assets/03983031-05d6-4afd-a6b9-585a6e58ec87" />
+<img width="1897" height="691" alt="image" src="https://github.com/user-attachments/assets/0bd7913d-d9da-452c-8578-74cec92875ca" />
+
+# 解决方案
 
 在"**Directory**"选项卡中，我们有三个用户卡片：scr1ptkiddy、Manager和Administrator。在这里我们可以看到Administrator的本地用户：`silveradmin@localhost`。
+
+<img width="1875" height="751" alt="image" src="https://github.com/user-attachments/assets/03983031-05d6-4afd-a6b9-585a6e58ec87" />
 
 我检查了所有目录和消息，但没有找到任何有用的信息。现在我们需要注销，然后尝试以Silver Admin身份登录：
 
@@ -154,7 +160,7 @@ sudo cat /root/root.txt
 
 输出结果显示了root的flag。
 
-## 总结
+## 经验教训
 
 在这个房间里，我学到了如何：
 * 搜索**CVE漏洞**。
@@ -163,13 +169,17 @@ sudo cat /root/root.txt
 
 ---
 
-This is my write-up for the [Silver Platter](https://tryhackme.com/room/silverplatter) room. This is a CTF challenge where we will dive into the web server to find hidden flags via SSH.
+This is my write-up for the [Silver Platter](https://tryhackme.com/room/silverplatter) room. 
 
-We have to find user's flag and root's flag.
+# Overview
 
-## Reconnaissance
+This is a CTF challenge where we will dive into the web server to find hidden flags via SSH. We have to find user's flag and root's flag.
+
+# Reconnaissance
 
 After getting an IP address, I scanned it to search for open ports using Nmap tool:
+
+Nmap (Network Mapper) is a free, open-source network scanning tool used for host discovery, port scanning, service detection, operating system fingerprinting, and security auditing.
 
 ```
 nmap -sC -sV MACHINE_IP
@@ -207,7 +217,7 @@ We're being redirected to login page! I immediately noticed the "Give me a new p
 
 The only thing we know is that "scr1ptkiddy" username is on Silverpeas. Nothing more. We have to find the vulnerability of this service, that can help us continue.
 
-## Exploitation
+# Exploitation
 
 I googled "silverpeas vulnerabilities" and found **CVE-2024-36042 "Silverpeas authentication bypass"**. This is exactly what we need, because we have username, and this CVE lets us log in without password.
 
@@ -244,13 +254,15 @@ Login=scr1ptkiddy&DomainId=0
 
 And send it. Then turn the intercept off.
 
-<img width="1897" height="691" alt="image" src="https://github.com/user-attachments/assets/cbd07378-16f4-40d6-b0f2-c598c809e307" />
-
 We're now logged in as scr1ptkiddy on Silverpeas.
 
-<img width="1875" height="751" alt="image" src="https://github.com/user-attachments/assets/ce7cca19-b7ff-428d-b9fe-8ea92266c532" />
+<img width="1897" height="691" alt="image" src="https://github.com/user-attachments/assets/cbd07378-16f4-40d6-b0f2-c598c809e307" />
+
+# Solution
 
 In "**Directory**" tab we have three cards of users: scr1ptkiddy, Manager and Administrator. Here we can see Administrator's local user: `silveradmin@localhost`.
+
+<img width="1875" height="751" alt="image" src="https://github.com/user-attachments/assets/ce7cca19-b7ff-428d-b9fe-8ea92266c532" />
 
 I checked all the directories and messages but didn't find anything helpful. Now we need to log out and try to log in as Silver Admin:
 
@@ -312,7 +324,7 @@ sudo cat /root/root.txt
 
 The output reveals root's flag.
 
-## Conclusion
+## Lessons Learned
 
 In this room, I learned how to:
 * Search for **CVE vulnerabilities**.

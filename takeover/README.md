@@ -4,9 +4,14 @@
   <summary>Click to view in Chinese (点击查看中文版)</summary>
   
 ## 中文:
-> 我在这个房间使用了 TryHackMe 的 AttackBox。
 
-这是我的 [TakeOver](https://tryhackme.com/room/takeover) 房间的 Write-up。这个挑战主要围绕子域名枚举。
+
+
+这是我的 [TakeOver](https://tryhackme.com/room/takeover) 房间的 Write-up。
+
+# 概述与准备
+
+这个挑战主要围绕子域名枚举。
 
 在开始之前，你需要将 MACHINE_IP 添加到 `/etc/hosts` 文件中，指向 futurevera.thm（该房间的主机名）。进入 `/etc/hosts`：
 ```
@@ -18,8 +23,9 @@ sudo nano /etc/hosts
 
 然后保存文件。
 
+# 侦察
 
-将 futurevera 添加到 `/etc/hosts` 后，我们可以通过访问 `https://futurevera.thm``` 来打开网站：
+将 futurevera 添加到 `/etc/hosts` 后，我们可以通过访问 `https://futurevera.thm` 来打开网站：
 
 <img width="1226" height="879" alt="изображение" src="https://github.com/user-attachments/assets/7d40e3d8-ec3e-42c1-835d-2ea3c79e1083" />
 
@@ -30,6 +36,8 @@ sudo nano /etc/hosts
 <img width="1240" height="882" alt="изображение" src="https://github.com/user-attachments/assets/a2bdca6b-7bcf-439e-8def-85784e33df22" />
 
 这个挑战围绕子域名枚举，所以我们需要在这方面下功夫。我使用 **ffuf** 工具来做这件事。
+
+FFUF（Fuzz Faster U Fool）是一款开源的高性能 Web 模糊测试工具，用于发现隐藏的 Web 内容，例如目录、文件、参数和虚拟主机。
 
 ```
 ffuf -u https://10.146.166.183 -H "host: FUZZ.futurevera.thm" -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-5000.txt
@@ -55,6 +63,8 @@ ffuf -u https://10.146.166.183 -H "host: FUZZ.futurevera.thm" -w /usr/share/word
 
 <img width="1235" height="873" alt="изображение" src="https://github.com/user-attachments/assets/d8e3b245-61eb-4c76-8990-ac9440a43ac0" />
 
+# 解决方案
+
 让我们回到 `https://support.futurevera.thm` 的警告页面：
 
 <img width="882" height="795" alt="изображение" src="https://github.com/user-attachments/assets/158d27cf-2dc3-49d6-b4cb-0757193b7c2a" />
@@ -77,7 +87,7 @@ ffuf -u https://10.146.166.183 -H "host: FUZZ.futurevera.thm" -w /usr/share/word
 
 我们得到了一个错误页面，显示了 flag。
 
-## 总结
+## 经验教训
 
 在这个房间中，我学会了如何：
 * 使用 **ffuf** 进行子域名枚举，以及如何使用 `-fs` 标志按大小过滤结果。
@@ -86,11 +96,13 @@ ffuf -u https://10.146.166.183 -H "host: FUZZ.futurevera.thm" -w /usr/share/word
 
 </details>
 
-> I used TryHackMe AttackBox for this room.
-
 ---
 
-This is my write-up for the [TakeOver](https://tryhackme.com/room/takeover) room. This challenge revolves around subdomain enumeration.
+This is my write-up for the [TakeOver](https://tryhackme.com/room/takeover) room. 
+
+# Overview & Preparation
+
+This challenge revolves around subdomain enumeration.
 
 Before you start, you should add the MACHINE_IP in `/etc/hosts` for futurevera (room's site). Go to `/etc/hosts`:
 ```
@@ -102,6 +114,7 @@ And add MACHINE_IP with `futurevera.thm` to the list:
 
 Then save the file.
 
+# Reconnaissance
 
 After adding futurevera to `/etc/hosts` we can open the site by going `https://futurevera.thm`:
 
@@ -114,6 +127,8 @@ Here's the FutureVera site.
 <img width="1240" height="882" alt="изображение" src="https://github.com/user-attachments/assets/a2bdca6b-7bcf-439e-8def-85784e33df22" />
 
 This challenge revolves around subdomain enumeration, so we have to work on that. I'm using **ffuf** tool for this.
+
+FFUF (Fuzz Faster U Fool) is an open-source, high-performance web fuzzing tool designed to discover hidden web content such as directories, files, parameters, and virtual hosts.
 
 ```
 ffuf -u https://10.146.166.183 -H "host: FUZZ.futurevera.thm" -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-5000.txt
@@ -139,6 +154,8 @@ At the `https://support.futurevera.thm` nothing too.
 
 <img width="1235" height="873" alt="изображение" src="https://github.com/user-attachments/assets/d8e3b245-61eb-4c76-8990-ac9440a43ac0" />
 
+# Solution
+
 Let's go back to the warning page at `https://support.futurevera.thm`:
 
 <img width="882" height="795" alt="изображение" src="https://github.com/user-attachments/assets/158d27cf-2dc3-49d6-b4cb-0757193b7c2a" />
@@ -161,7 +178,7 @@ Nothing here. We should remove the 's' letter in `https`, to go to ```http://sec
 
 We're getting an error page, revealing the flag.
 
-## Conclusion
+## Lessons Learned
 
 In this room, I learned how to:
 * Use **ffuf** for subdomain enumeration and how to filter results by size, using `-fs` flag.

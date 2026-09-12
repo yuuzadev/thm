@@ -5,13 +5,22 @@
 
 ---
   
-这是我对 [Lo-Fi](https://tryhackme.com/room/lofi) 房间的write-up。这是一个专注于文件系统遍历的CTF挑战题。
+这是我对 [Lo-Fi](https://tryhackme.com/room/lofi) 房间的write-up。
+
+# 概述
+
+这是一个专注于文件系统遍历的CTF挑战题。
+
+# 侦察
 
 获取到机器的IP地址后，我们可以访问网页 `http://MACHINE_IP`：
 
 <img width="1919" height="828" alt="image" src="https://github.com/user-attachments/assets/05896a24-ec88-4eae-87cc-740a275aa870" />
 
 这个房间的主题是文件系统，所以我使用FFuF工具进行了目录枚举：
+
+FFUF（Fuzz Faster U Fool）是一款开源的高性能 Web 模糊测试工具，用于发现隐藏的 Web 内容，例如目录、文件、参数和虚拟主机。
+
 ```
 ffuf -u http://MACHINE_IP/FUZZ -w /usr/share/wordlists/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt
 ```
@@ -31,6 +40,8 @@ ffuf -u http://MACHINE_IP/FUZZ -w /usr/share/wordlists/seclists/Discovery/Web-Co
 
 <img width="1484" height="368" alt="Untitled" src="https://github.com/user-attachments/assets/3828a67a-ed0c-4cfa-892d-af3fcc4d66da" />
 
+# 解决方案
+
 我们可以利用这一点。就像在终端里操作一样：通过使用多个 `../` 命令，我们尝试进入文件系统的根目录，并访问 `/etc/passwd` 目录。另外，别忘了把URL中的 `?search=` 改成 `?page=`，这样才能看到结果。
 
 <img width="1484" height="616" alt="Untitled" src="https://github.com/user-attachments/assets/a3eb6a14-d70a-4b1c-82ff-42f3a437a314" />
@@ -39,7 +50,7 @@ ffuf -u http://MACHINE_IP/FUZZ -w /usr/share/wordlists/seclists/Discovery/Web-Co
 
 页面最终显示了flag。
 
-## 总结
+## 经验教训
 在这个房间里，我学到了如何：
 
 * 使用URL注入来访问数据。
@@ -48,13 +59,22 @@ ffuf -u http://MACHINE_IP/FUZZ -w /usr/share/wordlists/seclists/Discovery/Web-Co
 
 ---
 
-This is my write-up for the [Lo-Fi](https://tryhackme.com/room/lofi) room. This is CTF challenge focused on filesystem traversal.
+This is my write-up for the [Lo-Fi](https://tryhackme.com/room/lofi) room. 
+
+# Overview
+
+This is CTF challenge focused on filesystem traversal.
+
+# Reconnaissance
 
 After getting an IP address of the machine, we can go to the web page `http://MACHINE_IP`:
 
 <img width="1919" height="828" alt="image" src="https://github.com/user-attachments/assets/05896a24-ec88-4eae-87cc-740a275aa870" />
 
 This room is about filesystem, so I enumerated directories using FFuF tool:
+
+FFUF (Fuzz Faster U Fool) is an open-source, high-performance web fuzzing tool designed to discover hidden web content such as directories, files, parameters, and virtual hosts.
+
 ```
 ffuf -u http://MACHINE_IP/FUZZ -w /usr/share/wordlists/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt
 ```
@@ -74,6 +94,8 @@ The web page contains a search bar. If you type something and press "Go!" button
 
 <img width="1484" height="368" alt="Untitled" src="https://github.com/user-attachments/assets/3828a67a-ed0c-4cfa-892d-af3fcc4d66da" />
 
+# Solution
+
 We can use it. Think just like in your terminal: we're going to root of the filesystem by using several `../` commands and going to `/etc/passwd` directory. Also don't forget to change `?search=` in URL to `?page=`, so we can see it.
 
 <img width="1484" height="616" alt="Untitled" src="https://github.com/user-attachments/assets/a3eb6a14-d70a-4b1c-82ff-42f3a437a314" />
@@ -82,7 +104,7 @@ The result proves that we can access data by URL injection. Let's check for `fla
 
 The page reveals the flag.
 
-## Conclusion
+## Lessons Learned
 
 In this room, I learned how to:
 * Use URL injection to access data.

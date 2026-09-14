@@ -67,7 +67,7 @@ Search for this block of code (you can find it by pressing Ctrl + F and typing k
 }
 ```
 
-and change the `return false;` line to `return true;`:
+And change the `return false;` line to `return true;`:
 
 <img width="827" height="523" alt="image" src="https://github.com/user-attachments/assets/a01341b4-896b-48c4-8160-c5bf91c0b58c" />
 

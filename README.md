@@ -8,3 +8,4 @@ Write-ups and notes for TryHackMe rooms.
 - [Silver Platter](https://github.com/yuuzadev/thm/tree/main/silverplatter)
 - [Dig Dug](https://github.com/yuuzadev/thm/tree/main/digdug)
 - [CyberHeroes](https://github.com/yuuzadev/thm/tree/main/cyberheroes)
+- [Fools Mate](https://github.com/yuuzadev/thm/tree/main/foolsmate)

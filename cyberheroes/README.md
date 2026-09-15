@@ -10,7 +10,7 @@
 目标是访问 URL：`http://machine_ip/` 并找到登录的方法。
 
 # 侦察
-获取到 MACHINE_IP 后，我打开了 `http://machine_ip/`，看到了 Cyber Heros 网站。
+获取到 machine IP 后，我打开了 `http://machine_ip/`，看到了 Cyber Heros 网站。
 
 <img width="1901" height="819" alt="image" src="https://github.com/user-attachments/assets/ba45578e-4fac-4c70-ae90-697e78ab201a" />
 
@@ -56,7 +56,7 @@ This is my write-up for the [CyberHeroes](https://tryhackme.com/room/cyberheroes
 The goal is to navigate to URL: `http://machine_ip/` and find a way to log in.
 
 # Reconnaissance
-After getting MACHINE_IP, I opened `http://machine_ip/` and saw the Cyber Heros website.
+After getting machine IP, I opened `http://machine_ip/` and saw the Cyber Heros website.
 
 <img width="1901" height="819" alt="image" src="https://github.com/user-attachments/assets/02505afe-022d-4d79-bc4f-126433fe91d0" />
 

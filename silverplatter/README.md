@@ -18,14 +18,14 @@
 Nmap（Network Mapper）是一款免费、开源的网络扫描工具，用于主机发现、端口扫描、服务检测、操作系统指纹识别和安全审计。
 
 ```
-nmap -sC -sV MACHINE_IP
+nmap -sC -sV machine_ip
 ```
 
 <img width="833" height="363" alt="image" src="https://github.com/user-attachments/assets/2596132f-2d21-4244-b4f9-6fb1c85ca167" />
 
-我们发现了三个开放端口：**22**（SSH）、**80**（HTTP）、**8080**（HTTP-PROXY）。让我们查看一下Web服务器：
+我们发现了三个开放端口：22（SSH）、80（HTTP）、8080（HTTP-PROXY）。让我们查看一下Web服务器：
 
-`http://MACHINE_IP:80` 或直接 `http://MACHINE_IP`
+`http://machine_ip:80` 或直接 `http://machine_ip`
 
 <img width="1906" height="867" alt="image" src="https://github.com/user-attachments/assets/2abae469-3812-45c1-956c-c321a051277b" />
 
@@ -35,17 +35,17 @@ nmap -sC -sV MACHINE_IP
 
 <img width="782" height="218" alt="image" src="https://github.com/user-attachments/assets/1b14c21a-3811-4441-b296-63f923735094" />
 
-现在我们知道了在**Silverpeas**服务上有一个名为"scr1ptkiddy"的用户名。
+现在我们知道了在Silverpeas服务上有一个名为"scr1ptkiddy"的用户名。
 
 然后我检查了8080端口：
 
-`http://MACHINE_IP:8080`
+`http://machine_ip:8080`
 
 <img width="618" height="160" alt="image" src="https://github.com/user-attachments/assets/1957d6b4-09f6-420c-a455-474bccf2216d" />
 
 它返回了一个错误。但这并不意味着没有更多内容。我们知道Silverpeas服务，来看看8080端口是否处理它：
 
-`http://MACHINE_IP:8080/silverpeas`
+`http://machine_ip:8080/silverpeas`
 
 <img width="1444" height="682" alt="image" src="https://github.com/user-attachments/assets/b52fca72-dd8c-45f3-847b-aeea95942249" />
 
@@ -55,14 +55,14 @@ nmap -sC -sV MACHINE_IP
 
 # 漏洞利用
 
-我在Google上搜索了"silverpeas vulnerabilities"，找到了**CVE-2024-36042 "Silverpeas authentication bypass"**。这正是我们需要的，因为我们有用户名，而这个CVE允许我们在没有密码的情况下登录。
+我在Google上搜索了"silverpeas vulnerabilities"，找到了CVE-2024-36042 "Silverpeas authentication bypass"。这正是我们需要的，因为我们有用户名，而这个CVE允许我们在没有密码的情况下登录。
 
 <img width="1458" height="739" alt="image" src="https://github.com/user-attachments/assets/241f60dc-97ae-413c-a8f3-9d459c3b14dc" />
 
 ### CVE-2024-36042 描述：
 Silverpeas 6.3.5之前的版本存在身份验证绕过漏洞，通过在AuthenticationServlet中省略Password字段，通常可为未经身份验证的用户提供超级管理员权限。
 
-这太完美了。让我们打开Burp Suite，访问 `http://MACHINE_IP:8080/silverpeas`，然后输入用户名"scr1ptkiddy"，在**开启拦截**的情况下点击"LOG IN"，这样我们就能捕获请求并尝试利用该漏洞。
+这太完美了。让我们打开Burp Suite，访问 `http://machine_ip:8080/silverpeas`，然后输入用户名"scr1ptkiddy"，在开启拦截的情况下点击"LOG IN"，这样我们就能捕获请求并尝试利用该漏洞。
 
 ```
 POST /silverpeas/AuthenticationServlet HTTP/1.1
@@ -75,7 +75,7 @@ Referer: http://10.48.175.44:8080/silverpeas/defaultLogin.jsp
 Login=scr1ptkiddy&Password=&DomainId=0
 ```
 
-我们需要**删除请求末尾的password字段**，像这样：
+我们需要删除请求末尾的password字段，像这样：
 
 ```
 POST /silverpeas/AuthenticationServlet HTTP/1.1
@@ -96,7 +96,7 @@ Login=scr1ptkiddy&DomainId=0
 
 # 解决方案
 
-在"**Directory**"选项卡中，我们有三个用户卡片：scr1ptkiddy、Manager和Administrator。在这里我们可以看到Administrator的本地用户：`silveradmin@localhost`。
+在"Directory"选项卡中，我们有三个用户卡片：scr1ptkiddy、Manager和Administrator。在这里我们可以看到Administrator的本地用户：`silveradmin@localhost`。
 
 <img width="1875" height="751" alt="image" src="https://github.com/user-attachments/assets/03983031-05d6-4afd-a6b9-585a6e58ec87" />
 
@@ -112,7 +112,7 @@ Referer: http://10.48.175.44:8080/silverpeas/defaultLogin.jsp
 
 Login=SilverAdmin&DomainId=0
 ```
-（**用户名中不要使用空格**）
+（用户名中不要使用空格）
 
 现在我们已经以Administrator身份登录。让我们检查消息……
 
@@ -125,7 +125,7 @@ Login=SilverAdmin&DomainId=0
 它为我们提供了SSH的用户名和密码。让我们深入进去。
 
 ```
-ssh tim@MACHINE_IP
+ssh tim@machine_ip
 ```
 
 然后复制粘贴密码。
@@ -163,7 +163,7 @@ sudo cat /root/root.txt
 ## 经验教训
 
 在这个房间里，我学到了如何：
-* 搜索**CVE漏洞**。
+* 搜索CVE漏洞。
 
   </details>
 
@@ -182,14 +182,14 @@ After getting an IP address, I scanned it to search for open ports using Nmap to
 Nmap (Network Mapper) is a free, open-source network scanning tool used for host discovery, port scanning, service detection, operating system fingerprinting, and security auditing.
 
 ```
-nmap -sC -sV MACHINE_IP
+nmap -sC -sV machine_ip
 ```
 
 <img width="833" height="363" alt="image" src="https://github.com/user-attachments/assets/2596132f-2d21-4244-b4f9-6fb1c85ca167" />
 
-We got three open ports: **22** (SSH), **80** (HTTP), **8080** (HTTP-PROXY). Let's see the web server:
+We got three open ports: 22 (SSH), 80 (HTTP), 8080 (HTTP-PROXY). Let's see the web server:
 
-`http://MACHINE_IP:80` or just `http://MACHINE_IP`
+`http://machine_ip:80` or just `http://machine_ip`
 
 <img width="1906" height="867" alt="image" src="https://github.com/user-attachments/assets/5b4fc1c0-2cbf-4e0e-9331-b3599990aad6" />
 
@@ -199,17 +199,17 @@ The most interesting tab is "Contact".
 
 <img width="782" height="218" alt="image" src="https://github.com/user-attachments/assets/7674e8d0-d5b4-46aa-8dca-c85c8599be8d" />
 
-Now we know that there's "scr1ptkiddy" username on **Silverpeas** service.
+Now we know that there's "scr1ptkiddy" username on Silverpeas service.
 
 Then I checked port 8080:
 
-`http://MACHINE_IP:8080`
+`http://machine_ip:8080`
 
 <img width="618" height="160" alt="image" src="https://github.com/user-attachments/assets/17a30992-2d31-4116-bee2-8258304dbaac" />
 
 It returns us an error. But it doesn't mean that there is nothing more. We know about Silverpeas service, let's see if port 8080 handles it:
 
-`http://MACHINE_IP:8080/silverpeas`
+`http://machine_ip:8080/silverpeas`
 
 <img width="1444" height="682" alt="image" src="https://github.com/user-attachments/assets/19fb0d8c-4454-4d08-b102-5cff1a5f0f6a" />
 
@@ -219,14 +219,14 @@ The only thing we know is that "scr1ptkiddy" username is on Silverpeas. Nothing 
 
 # Exploitation
 
-I googled "silverpeas vulnerabilities" and found **CVE-2024-36042 "Silverpeas authentication bypass"**. This is exactly what we need, because we have username, and this CVE lets us log in without password.
+I googled "silverpeas vulnerabilities" and found CVE-2024-36042 "Silverpeas authentication bypass". This is exactly what we need, because we have username, and this CVE lets us log in without password.
 
 <img width="1458" height="739" alt="image" src="https://github.com/user-attachments/assets/74b47a78-fbd3-4d13-87bc-975084f64556" />
 
 ### CVE-2024-36042 Description:
 Silverpeas before 6.3.5 allows authentication bypass by omitting the Password field to AuthenticationServlet, often providing an unauthenticated user with superadmin access.
 
-This is perfect. Let's open Burp Suite and go to `http://MACHINE_IP:8080/silverpeas`, then type "scr1ptkiddy" username and press "LOG IN" with **intercept on**, so we can capture our request and try the vulnerability.
+This is perfect. Let's open Burp Suite and go to `http://machine_ip:8080/silverpeas`, then type "scr1ptkiddy" username and press "LOG IN" with intercept on, so we can capture our request and try the vulnerability.
 
 ```
 POST /silverpeas/AuthenticationServlet HTTP/1.1
@@ -239,7 +239,7 @@ Referer: http://10.48.175.44:8080/silverpeas/defaultLogin.jsp
 Login=scr1ptkiddy&Password=&DomainId=0
 ```
 
-We need to **remove password field at the end of the request** like this:
+We need to remove password field at the end of the request like this:
 
 ```
 POST /silverpeas/AuthenticationServlet HTTP/1.1
@@ -260,7 +260,7 @@ We're now logged in as scr1ptkiddy on Silverpeas.
 
 # Solution
 
-In "**Directory**" tab we have three cards of users: scr1ptkiddy, Manager and Administrator. Here we can see Administrator's local user: `silveradmin@localhost`.
+In "Directory" tab we have three cards of users: scr1ptkiddy, Manager and Administrator. Here we can see Administrator's local user: `silveradmin@localhost`.
 
 <img width="1875" height="751" alt="image" src="https://github.com/user-attachments/assets/ce7cca19-b7ff-428d-b9fe-8ea92266c532" />
 
@@ -276,7 +276,7 @@ Referer: http://10.48.175.44:8080/silverpeas/defaultLogin.jsp
 
 Login=SilverAdmin&DomainId=0
 ```
-(**Do not use space in username field**)
+(Do not use space in username field)
 
 Now we're logged in as Administrator. Let's check messages...
 
@@ -289,7 +289,7 @@ In "Mes notifications", in "Notifications envoyées" tab we see message with "SS
 It gives us a username and password for SSH. Let's dive into it.
 
 ```
-ssh tim@MACHINE_IP
+ssh tim@machine_ip
 ```
 
 Then copy n paste the password.
@@ -327,4 +327,4 @@ The output reveals root's flag.
 ## Lessons Learned
 
 In this room, I learned how to:
-* Search for **CVE vulnerabilities**.
+* Search for CVE vulnerabilities.

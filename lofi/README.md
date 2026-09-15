@@ -13,7 +13,7 @@
 
 # 侦察
 
-获取到机器的IP地址后，我们可以访问网页 `http://MACHINE_IP`：
+获取到机器IP后，我们可以访问网页 `http://machine_ip/`：
 
 <img width="1919" height="828" alt="image" src="https://github.com/user-attachments/assets/05896a24-ec88-4eae-87cc-740a275aa870" />
 
@@ -67,7 +67,7 @@ This is CTF challenge focused on filesystem traversal.
 
 # Reconnaissance
 
-After getting an IP address of the machine, we can go to the web page `http://MACHINE_IP`:
+After getting machine IP, we can go to the web page `http://machine_ip/`:
 
 <img width="1919" height="828" alt="image" src="https://github.com/user-attachments/assets/05896a24-ec88-4eae-87cc-740a275aa870" />
 

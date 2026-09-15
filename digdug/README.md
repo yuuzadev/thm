@@ -9,16 +9,16 @@
 
 # 概述
 
-目标是在DNS记录中找到flag，但题目说明我们必须处理 `givemetheflag.com` 这个域名，因为"它只响应针对 `givemetheflag.com` 域名的特殊类型请求"。另外，"原来这台 MACHINE_IP 机器也是一台DNS服务器！"
+目标是在DNS记录中找到flag，但题目说明我们必须处理 `givemetheflag.com` 这个域名，因为"它只响应针对 `givemetheflag.com` 域名的特殊类型请求"。另外，"原来这台 machine IP 机器也是一台DNS服务器！"
 
 # 侦察
 
-获取到 MACHINE_IP 后，我通过 `dig` 命令搜索了DNS记录。
+获取到 machine IP 后，我通过 `dig` 命令搜索了DNS记录。
 
 dig 命令是一个灵活的网络管理工具，用于查询域名系统（DNS）服务器，以获取域名记录的详细信息。
 
 ```
-dig MACHINE_IP
+dig machine_ip
 ```
 <img width="1138" height="370" alt="image" src="https://github.com/user-attachments/assets/85662e34-27c4-433d-b943-fb3b9721bf7a" />
 
@@ -35,14 +35,14 @@ DNS 中有 4 个数据部分：
 
 如你所见，我们得到了一些域名：`a.root-servers.net` 和 `nstld.verisign-grs.com`，但我们不需要关注这些，因为提示是关于DNS记录的。
 
-之后我决定扫描 MACHINE_IP 的开放端口，但这是一个错误，纯粹是浪费时间。我会在解题部分之后写一些建议。
+之后我决定扫描 machine IP 的开放端口，但这是一个错误，纯粹是浪费时间。我会在解题部分之后写一些建议。
 
 # 解决方案
 
-过了一会儿，我明白了我们需要将 MACHINE_IP 与域名 `givemetheflag.com` 结合使用 `dig`：
+过了一会儿，我明白了我们需要将 machine IP 与域名 `givemetheflag.com` 结合使用 `dig`：
 
 ```
-dig @MACHINE_IP givemetheflag.com
+dig @machine_ip givemetheflag.com
 ```
 这个命令让我们可以看到特定DNS服务器关于该域名所看到的记录。
 
@@ -62,11 +62,11 @@ This is my write-up for the [Dig Dug](https://tryhackme.com/room/digdug) room.
 
 # Overview
 
-The goal is to find the flag in DNS (Domain Name System) records, but it says that we have to work with `givemetheflag.com` domain, because "this only responds to a special type of request for a `givemetheflag.com` domain". Also, "turns out, this MACHINE_IP machine is also a DNS server!".
+The goal is to find the flag in DNS (Domain Name System) records, but it says that we have to work with `givemetheflag.com` domain, because "this only responds to a special type of request for a `givemetheflag.com` domain". Also, "turns out, this machine IP machine is also a DNS server!".
 
 # Reconnaissance
 
-After getting MACHINE_IP, I searched for DNS records via `dig` command.
+After getting machine IP, I searched for DNS records via `dig` command.
 
 The dig command is a flexible network administration tool used for querying Domain Name System (DNS) servers to retrieve detailed information about domain records.
 
@@ -86,14 +86,14 @@ In DNS there's 4 sections of data:
 
 As you can see we got some name servers listed: `a.root-servers.net` & `nstld.verisign-grs.com`, it is an AUTHORITY records, ignore them. We need to focus on ANSWER records.
 
-After that I decided to look for open ports on MACHINE_IP, but it was a mistake and just a waste of time. I'll write some advices down here after the solving part.
+After that I decided to look for open ports on machine IP, but it was a mistake and just a waste of time. I'll write some advices down here after the solving part.
 
 # Solution
 
-A little later I understood that we need to combine MACHINE_IP with the domain `givemetheflag.com` using `dig`:
+A little later I understood that we need to combine machine IP with the domain `givemetheflag.com` using `dig`:
 
 ```
-dig @MACHINE_IP givemetheflag.com
+dig @machine_ip givemetheflag.com
 ```
 This command lets us see what records specific DNS server sees about the domain.
 

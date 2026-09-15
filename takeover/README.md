@@ -13,11 +13,11 @@
 
 这个挑战主要围绕子域名枚举。
 
-在开始之前，你需要将 MACHINE_IP 添加到 `/etc/hosts` 文件中，指向 futurevera.thm（该房间的主机名）。进入 `/etc/hosts`：
+在开始之前，你需要将 machine IP 添加到 `/etc/hosts` 文件中，指向 futurevera.thm（该房间的主机名）。进入 `/etc/hosts`：
 ```
 sudo nano /etc/hosts
 ```
-并将 MACHINE_IP 与 `futurevera.thm` 一起添加到列表中：
+并将 machine IP 与 `futurevera.thm` 一起添加到列表中：
 
 <img width="724" height="253" alt="изображение" src="https://github.com/user-attachments/assets/01f4a950-c271-4be6-9508-dd2b0e87c973" />
 
@@ -29,13 +29,13 @@ sudo nano /etc/hosts
 
 <img width="1226" height="879" alt="изображение" src="https://github.com/user-attachments/assets/7d40e3d8-ec3e-42c1-835d-2ea3c79e1083" />
 
-我们会看到一个警告页面，提示存在潜在的安全风险。暂时忽略它，点击"**高级...**" > "**接受风险并继续**"。
+我们会看到一个警告页面，提示存在潜在的安全风险。暂时忽略它，点击"Advanced..." -> "Accept the Risk and Continue"。
 
 这是 FutureVera 网站。
 
 <img width="1240" height="882" alt="изображение" src="https://github.com/user-attachments/assets/a2bdca6b-7bcf-439e-8def-85784e33df22" />
 
-这个挑战围绕子域名枚举，所以我们需要在这方面下功夫。我使用 **ffuf** 工具来做这件事。
+这个挑战围绕子域名枚举，所以我们需要在这方面下功夫。我使用 ffuf 工具来做这件事。
 
 FFUF（Fuzz Faster U Fool）是一款开源的高性能 Web 模糊测试工具，用于发现隐藏的 Web 内容，例如目录、文件、参数和虚拟主机。
 
@@ -69,7 +69,7 @@ ffuf -u https://10.146.166.183 -H "host: FUZZ.futurevera.thm" -w /usr/share/word
 
 <img width="882" height="795" alt="изображение" src="https://github.com/user-attachments/assets/158d27cf-2dc3-49d6-b4cb-0757193b7c2a" />
 
-点击"查看证书"按钮，然后找到 DNS 名称：
+点击"View Certificate"按钮，然后找到 DNS 名称：
 
 <img width="800" height="718" alt="изображение" src="https://github.com/user-attachments/assets/d7f070f3-2436-4138-b084-b66717cc973c" />
 
@@ -104,11 +104,11 @@ This is my write-up for the [TakeOver](https://tryhackme.com/room/takeover) room
 
 This challenge revolves around subdomain enumeration.
 
-Before you start, you should add the MACHINE_IP in `/etc/hosts` for futurevera (room's site). Go to `/etc/hosts`:
+Before you start, you should add the machine IP in `/etc/hosts` for futurevera (room's site). Go to `/etc/hosts`:
 ```
 sudo nano /etc/hosts
 ```
-And add MACHINE_IP with `futurevera.thm` to the list:
+And add machine IP with `futurevera.thm` to the list:
 
 <img width="724" height="253" alt="изображение" src="https://github.com/user-attachments/assets/01f4a950-c271-4be6-9508-dd2b0e87c973" />
 
@@ -120,13 +120,13 @@ After adding futurevera to `/etc/hosts` we can open the site by going `https://f
 
 <img width="1226" height="879" alt="изображение" src="https://github.com/user-attachments/assets/7d40e3d8-ec3e-42c1-835d-2ea3c79e1083" />
 
-We will get the warning page, that says about potential security risk. Ignore it for now and continue by pressing "**Advanced...**" > "**Accept the Risk and Continue**".
+We will get the warning page, that says about potential security risk. Ignore it for now and continue by pressing "Advanced..." -> "Accept the Risk and Continue".
 
 Here's the FutureVera site.
 
 <img width="1240" height="882" alt="изображение" src="https://github.com/user-attachments/assets/a2bdca6b-7bcf-439e-8def-85784e33df22" />
 
-This challenge revolves around subdomain enumeration, so we have to work on that. I'm using **ffuf** tool for this.
+This challenge revolves around subdomain enumeration, so we have to work on that. I'm using ffuf tool for this.
 
 FFUF (Fuzz Faster U Fool) is an open-source, high-performance web fuzzing tool designed to discover hidden web content such as directories, files, parameters, and virtual hosts.
 
@@ -160,7 +160,7 @@ Let's go back to the warning page at `https://support.futurevera.thm`:
 
 <img width="882" height="795" alt="изображение" src="https://github.com/user-attachments/assets/158d27cf-2dc3-49d6-b4cb-0757193b7c2a" />
 
-Press the "**View Certificate**" button to open SSL, then find the DNS Name:
+Press the "View Certificate" button to open SSL, then find the DNS Name:
 
 <img width="800" height="718" alt="изображение" src="https://github.com/user-attachments/assets/d7f070f3-2436-4138-b084-b66717cc973c" />
 

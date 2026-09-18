@@ -58,7 +58,7 @@ dig @machine_ip givemetheflag.com
 
 ---
 
-This is my write-up for the [Dig Dug](https://tryhackme.com/room/digdug) room. 
+This is my write-up for the [Dig Dug](https://tryhackme.com/room/digdug) room.
 
 # Overview
 

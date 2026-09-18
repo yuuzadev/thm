@@ -71,7 +71,7 @@ After getting machine IP, I searched for DNS records via `dig` command.
 The dig command is a flexible network administration tool used for querying Domain Name System (DNS) servers to retrieve detailed information about domain records.
 
 ```
-dig MACHINE_IP
+dig machine_ip
 ```
 <img width="1138" height="370" alt="image" src="https://github.com/user-attachments/assets/7beb3598-d8fa-465d-a807-ce60febf484a" />
 

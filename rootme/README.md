@@ -34,6 +34,8 @@ nmap -sC -sV machine_ip
 
 确保使用 `-sV` 参数进行服务版本检测，因为在其中一个任务中我们必须写出正在运行的 Apache 版本。
 
+<img width="837" height="272" alt="image" src="https://github.com/user-attachments/assets/68220f51-e3a3-4cc6-bf4a-fae9d66228b1" />
+
 我们得到了两个开放端口：22（ssh）和 80（http）。Apache 版本是 2.4.41。现在让我们使用 ffuf 工具而不是 GoBuster 来查找隐藏目录。
 
 > 在复杂的 Web 模糊测试中，ffuf 通常被认为比 Gobuster 更好，因为它具有灵活性和高级过滤功能。虽然这两个工具都很快并且用 Go 编写，但 ffuf 使用 FUZZ 关键字，可以放在 HTTP 请求的任何位置（URL、标头、正文、参数），而 Gobuster 主要用于将路径附加到 URL。
@@ -41,6 +43,8 @@ nmap -sC -sV machine_ip
 ```
 ffuf -u http://machine_ip/FUZZ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
 ```
+
+<img width="858" height="57" alt="image" src="https://github.com/user-attachments/assets/2c883379-033a-4217-9e0c-69b487c5b951" />
 
 然后我找到了"panel"目录。
 
@@ -60,6 +64,8 @@ ffuf -u http://machine_ip/FUZZ -w /usr/share/wordlists/dirbuster/directory-list-
 **"找到一个上传表单并获取反向shell，然后找到flag（user.txt）。"**
 
 我们找到了隐藏目录 `/panel/`，来看看它：`http://machine_ip/panel`
+
+<img width="1341" height="809" alt="image" src="https://github.com/user-attachments/assets/2671b93a-4f55-47d3-9eaa-7aeb40cf12f4" />
 
 这里我们可以上传文件，所以现在我们需要找到一个表单来获取反向shell。
 
@@ -86,7 +92,13 @@ $write_a = null;
 
 完成了，我们看到"O arquivo foi upado com sucesso!"，意思是"文件上传成功！"，在它下面我们需要按"Veja!"按钮，意思是"查看！"。
 
-我们会看到"WARNING: Failed to daemonise. This is quite common and not fatal. Connection refused (111) "错误页面，为了让它工作并获取反向shell，我们还需要用 netcat 工具建立连接。在你的终端中运行这个命令：
+<img width="852" height="610" alt="image" src="https://github.com/user-attachments/assets/61b47291-b8fd-41d2-a8aa-78d24e7e83e0" />
+
+我们会看到"WARNING: Failed to daemonise. This is quite common and not fatal. Connection refused (111) "错误页面：
+
+<img width="883" height="79" alt="image" src="https://github.com/user-attachments/assets/64d542f8-8903-4d8b-bcab-727cda482a44" />
+
+为了让我们的表单工作并获取反向shell，我们还需要用 netcat 工具建立连接。在你的终端中运行这个命令：
 
 > Netcat（通常缩写为 nc）是一个多功能命令行实用程序，旨在使用 TCP 或 UDP 协议通过网络连接读取和写入数据。netcat 反向shell允许目标系统连接回攻击者的机器，通过发起出站连接来绕过入站防火墙限制。
 
@@ -98,6 +110,8 @@ nc -lvp 1234
 
 在它运行的同时，重新加载页面并观察你的终端。
 
+<img width="1186" height="210" alt="image" src="https://github.com/user-attachments/assets/f726ebb0-95df-4b5d-b71f-81600e7b674f" />
+
 现在我们进去了，你可以通过运行 `whoami` 命令来检查。你将是 `www-data`。
 
 我们需要找到 `user.txt` flag，所以我运行了这个命令：
@@ -107,6 +121,8 @@ find / -type f -name "user.txt" 2>/dev/null
 ```
 
 > 在命令末尾使用 `2>/dev/null` 可以避免看到所有错误消息。
+
+<img width="457" height="38" alt="image" src="https://github.com/user-attachments/assets/1196f435-d304-489c-840b-dd9adf37a51a" />
 
 我得到了 `/var/www/user.txt` 输出。让我们用 `cat` 读取它：
 
@@ -134,8 +150,12 @@ find / -type f -perm -4000
 
 > `-perm -4000` 是一个参数，用于仅搜索具有 SUID 权限的文件。
 
+<img width="495" height="411" alt="image" src="https://github.com/user-attachments/assets/7991c4f9-02ae-4b1a-82f8-eb9e8669c6fd" />
+
 我得到了很多输出。这里最危险的文件是"/usr/bin/python2.7"，这意味着任何人都可以执行 python 文件。任何 python 文件。这就是我们提升权限的方法。我们需要为此找到 python 表单。这里有一个有用的网站：[GTFObins](https://gtfobins.org/)
 > GTFOBins 是一个精心整理的类 Unix 可执行文件列表，可用于在配置错误的系统中绕过本地安全限制。
+
+<img width="948" height="360" alt="image" src="https://github.com/user-attachments/assets/7e4a9509-5a8d-4c02-b268-1920425033ed" />
 
 找到"python"，然后点击"shell" > "SUID"。你会看到这个命令：
 
@@ -144,6 +164,8 @@ python -c 'import os; os.execl("/bin/sh", "sh", "-p")'
 ```
 
 在我们获得的shell中运行它。然后运行 `whoami` 检查是否成功。你现在应该是 root 了。
+
+<img width="573" height="59" alt="image" src="https://github.com/user-attachments/assets/01b2c03b-54ac-4827-9b8b-84d2ab15a01d" />
 
 然后就像我们对 `user.txt` 所做的那样，我们需要搜索 `root.txt`：
 
@@ -191,6 +213,8 @@ nmap -sC -sV machine_ip
 
 Make sure to use `-sV` command for service version detection, because in one of the tasks we have to write the version of the Apache running.
 
+<img width="837" height="272" alt="image" src="https://github.com/user-attachments/assets/0e0484e2-bc5c-499c-8bfb-3cd87bd7c5cc" />
+
 We got two open ports: 22 (ssh) and 80 (http). Apache version is 2.4.41 . Now let's find the hidden directory using ffuf tool, not GoBuster.
 
  > ffuf is generally considered better than Gobuster for complex web fuzzing due to its flexibility and advanced filtering capabilities.  While both tools are fast and written in Go, ffuf utilizes a FUZZ keyword that can be placed anywhere in an HTTP request (URL, headers, body, parameters), whereas Gobuster is primarily designed for appending paths to URLs.
@@ -198,6 +222,8 @@ We got two open ports: 22 (ssh) and 80 (http). Apache version is 2.4.41 . Now le
 ```
 ffuf -u http://machine_ip/FUZZ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
 ```
+
+<img width="858" height="57" alt="image" src="https://github.com/user-attachments/assets/63b01070-6ad7-47ad-aa33-8055e007da65" />
 
 And I found the "panel" directory.
 
@@ -217,6 +243,8 @@ And I found the "panel" directory.
 **"Find a form to upload and get a reverse shell, and find the flag (user.txt)."**
 
 We found hidden directory `/panel/`, lets check it: `http://machine_ip/panel`
+
+<img width="1341" height="809" alt="image" src="https://github.com/user-attachments/assets/440c9323-87b3-488c-832c-ebcb22f96274" />
 
 Here we can upload a file, so now we need to find a form to get a reverse shell. 
 
@@ -243,7 +271,13 @@ We're getting "PHP não é permitido!" error message, which means "PHP is not al
 
 And it's done, we see "O arquivo foi upado com sucesso!", which means "The file was successfully uploaded!", and below it we need to press the "Veja!" button, which means "Look!".
 
-We'll see "WARNING: Failed to daemonise. This is quite common and not fatal. Connection refused (111) " error page, to make it work and get a reverse shell we also need to set up the connection with netcat tool. Run this command in your terminal:
+<img width="852" height="610" alt="image" src="https://github.com/user-attachments/assets/768ef36e-88b8-45a7-8d34-f47c5de1488e" />
+
+We'll see "WARNING: Failed to daemonise. This is quite common and not fatal. Connection refused (111) " error page:
+
+<img width="883" height="79" alt="image" src="https://github.com/user-attachments/assets/64d542f8-8903-4d8b-bcab-727cda482a44" />
+
+And to make our form work and get a reverse shell we also need to set up the connection with netcat tool. Run this command in your terminal:
 
 > Netcat (often abbreviated as nc) is a versatile command-line utility designed to read and write data across network connections using TCP or UDP protocols. A netcat reverse shell allows a target system to connect back to an attacker's machine, bypassing inbound firewall restrictions by initiating an outbound connection.
 
@@ -255,6 +289,8 @@ nc -lvp 1234
 
 And while its running, reload the page and watch to your terminal.
 
+<img width="1186" height="210" alt="image" src="https://github.com/user-attachments/assets/98ef9592-16fb-4010-9282-69744d07ec3b" />
+
 Now we're in, you can check it by running `whoami` command. You'll be `www-data`.
 
 We need to find `user.txt` flag, so I ran this command:
@@ -264,6 +300,8 @@ find / -type f -name "user.txt" 2>/dev/null
 ```
 
 > Use `2>/dev/null` at the end of a command to not to see all error messages.
+
+<img width="457" height="38" alt="image" src="https://github.com/user-attachments/assets/a4dead5a-87ca-46dd-97f9-4470f33d7a15" />
 
 I got `/var/www/user.txt` output. Let's read it with `cat`:
 
@@ -291,8 +329,12 @@ find / -type f -perm -4000
 
 > `-perm -4000` is a flag to search for files only with SUID permission.
 
+<img width="495" height="411" alt="image" src="https://github.com/user-attachments/assets/4f616228-57a1-406a-a8b0-a6788dc96483" />
+
 And I got a lot of output. The "/usr/bin/python2.7" file is the most dangerous here, it means that anyone can execute a python file. Any python file. This is our way to elevate privileges. We need to find the python form for this. Here's useful site: [GTFObins](https://gtfobins.org/)
 > GTFOBins is a curated list of Unix-like executables that can be used to bypass local security restrictions in misconfigured systems.
+
+<img width="948" height="360" alt="image" src="https://github.com/user-attachments/assets/2f3bc174-4a70-4c0a-84f6-27063bdcda4f" />
 
 Find "python", then click "shell" > "SUID". You'll see this command:
 
@@ -301,6 +343,8 @@ python -c 'import os; os.execl("/bin/sh", "sh", "-p")'
 ```
 
 Run it in the shell that we got. Then run `whoami` to check if it worked. You need to be root now.
+
+<img width="573" height="59" alt="image" src="https://github.com/user-attachments/assets/e4b9ef86-93d3-4342-a7ba-19886c2df02d" />
 
 Then just we did with `user.txt`, we need to search for `root.txt`:
 

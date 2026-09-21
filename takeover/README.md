@@ -37,7 +37,7 @@ sudo nano /etc/hosts
 
 这个挑战围绕子域名枚举，所以我们需要在这方面下功夫。我使用 ffuf 工具来做这件事。
 
-FFUF（Fuzz Faster U Fool）是一款开源的高性能 Web 模糊测试工具，用于发现隐藏的 Web 内容，例如目录、文件、参数和虚拟主机。
+> FFUF（Fuzz Faster U Fool）是一款开源的高性能 Web 模糊测试工具，用于发现隐藏的 Web 内容，例如目录、文件、参数和虚拟主机。
 
 ```
 ffuf -u https://10.146.166.183 -H "host: FUZZ.futurevera.thm" -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-5000.txt
@@ -128,7 +128,7 @@ Here's the FutureVera site.
 
 This challenge revolves around subdomain enumeration, so we have to work on that. I'm using ffuf tool for this.
 
-FFUF (Fuzz Faster U Fool) is an open-source, high-performance web fuzzing tool designed to discover hidden web content such as directories, files, parameters, and virtual hosts.
+> FFUF (Fuzz Faster U Fool) is an open-source, high-performance web fuzzing tool designed to discover hidden web content such as directories, files, parameters, and virtual hosts.
 
 ```
 ffuf -u https://10.146.166.183 -H "host: FUZZ.futurevera.thm" -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-5000.txt

@@ -15,7 +15,7 @@
 
 获取到 machine IP 后，我通过 `dig` 命令搜索了DNS记录。
 
-dig 命令是一个灵活的网络管理工具，用于查询域名系统（DNS）服务器，以获取域名记录的详细信息。
+> dig 命令是一个灵活的网络管理工具，用于查询域名系统（DNS）服务器，以获取域名记录的详细信息。
 
 ```
 dig machine_ip
@@ -68,7 +68,7 @@ The goal is to find the flag in DNS (Domain Name System) records, but it says th
 
 After getting machine IP, I searched for DNS records via `dig` command.
 
-The dig command is a flexible network administration tool used for querying Domain Name System (DNS) servers to retrieve detailed information about domain records.
+> The dig command is a flexible network administration tool used for querying Domain Name System (DNS) servers to retrieve detailed information about domain records.
 
 ```
 dig machine_ip

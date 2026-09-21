@@ -15,7 +15,7 @@
 
 获取到IP地址后，我使用Nmap工具扫描了开放端口：
 
-Nmap（Network Mapper）是一款免费、开源的网络扫描工具，用于主机发现、端口扫描、服务检测、操作系统指纹识别和安全审计。
+> Nmap（Network Mapper）是一款免费、开源的网络扫描工具，用于主机发现、端口扫描、服务检测、操作系统指纹识别和安全审计。
 
 ```
 nmap -sC -sV machine_ip
@@ -179,7 +179,7 @@ This is a CTF challenge where we will dive into the web server to find hidden fl
 
 After getting an IP address, I scanned it to search for open ports using Nmap tool:
 
-Nmap (Network Mapper) is a free, open-source network scanning tool used for host discovery, port scanning, service detection, operating system fingerprinting, and security auditing.
+> Nmap (Network Mapper) is a free, open-source network scanning tool used for host discovery, port scanning, service detection, operating system fingerprinting, and security auditing.
 
 ```
 nmap -sC -sV machine_ip

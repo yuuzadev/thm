@@ -15,7 +15,7 @@
 
 获取目标 IP 地址后，我们可以使用 Nmap 扫描开放端口：
 
-Nmap（Network Mapper）是一款免费、开源的网络扫描工具，用于主机发现、端口扫描、服务检测、操作系统指纹识别和安全审计。
+> Nmap（Network Mapper）是一款免费、开源的网络扫描工具，用于主机发现、端口扫描、服务检测、操作系统指纹识别和安全审计。
 
 ```
 nmap machine_ip
@@ -40,7 +40,7 @@ nmap machine_ip
 
 我使用 Gobuster 来查找 Web 服务器上的隐藏目录：
 
-Gobuster 是一款高性能的开源命令行工具，专为目录、文件、DNS 子域名和虚拟主机的暴力破解而设计。
+> Gobuster 是一款高性能的开源命令行工具，专为目录、文件、DNS 子域名和虚拟主机的暴力破解而设计。
 
 ```
 gobuster dir -u http://machine_ip -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt
@@ -99,7 +99,7 @@ The goal was to exploit a web application that converts text to PDF to access a 
 
 After getting machine IP, we can scan it to search for open ports using Nmap:
 
-Nmap (Network Mapper) is a free, open-source network scanning tool used for host discovery, port scanning, service detection, operating system fingerprinting, and security auditing.
+> Nmap (Network Mapper) is a free, open-source network scanning tool used for host discovery, port scanning, service detection, operating system fingerprinting, and security auditing.
 
 ```
 nmap machine_ip
@@ -123,7 +123,7 @@ This page is similiar to the previous one, but the "Convert to PDF" button was u
 
 I used Gobuster to find hidden directories on the web server:
 
-Gobuster is a high-performance, open-source command-line tool, designed for directory, file, DNS subdomain, and virtual host brute-forcing.
+> Gobuster is a high-performance, open-source command-line tool, designed for directory, file, DNS subdomain, and virtual host brute-forcing.
 
 ```
 gobuster dir -u http://machine_ip -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt

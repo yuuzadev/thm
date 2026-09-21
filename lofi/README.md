@@ -19,7 +19,7 @@
 
 这个房间的主题是文件系统，所以我使用FFuF工具进行了目录枚举：
 
-FFUF（Fuzz Faster U Fool）是一款开源的高性能 Web 模糊测试工具，用于发现隐藏的 Web 内容，例如目录、文件、参数和虚拟主机。
+> FFUF（Fuzz Faster U Fool）是一款开源的高性能 Web 模糊测试工具，用于发现隐藏的 Web 内容，例如目录、文件、参数和虚拟主机。
 
 ```
 ffuf -u http://MACHINE_IP/FUZZ -w /usr/share/wordlists/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt
@@ -73,7 +73,7 @@ After getting machine IP, we can go to the web page `http://machine_ip/`:
 
 This room is about filesystem, so I enumerated directories using FFuF tool:
 
-FFUF (Fuzz Faster U Fool) is an open-source, high-performance web fuzzing tool designed to discover hidden web content such as directories, files, parameters, and virtual hosts.
+> FFUF (Fuzz Faster U Fool) is an open-source, high-performance web fuzzing tool designed to discover hidden web content such as directories, files, parameters, and virtual hosts.
 
 ```
 ffuf -u http://MACHINE_IP/FUZZ -w /usr/share/wordlists/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt

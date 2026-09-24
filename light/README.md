@@ -191,7 +191,7 @@ We see a line (or form) that reads our input and gives us an output. If you ever
 
 > SQL stands for Structured Query Language, a standardized programming language used to communicate with and manipulate relational databases. It allows users to create, retrieve, update, and delete data stored in tables consisting of rows and columns.
 
-To test it out you can just type: `'` (apostrophe) and press Enter.
+To test it out you can just type: `'` (single quote) and press Enter.
 
 <img width="584" height="85" alt="image" src="https://github.com/user-attachments/assets/a99a1956-e16a-4644-b6c2-b597ea4defef" />
 

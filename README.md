@@ -10,3 +10,4 @@ Write-ups and notes for TryHackMe challenges.
 - [CyberHeroes](https://github.com/yuuzadev/thm/tree/main/cyberheroes)
 - [Fools Mate](https://github.com/yuuzadev/thm/tree/main/foolsmate)
 - [RootMe](https://github.com/yuuzadev/thm/tree/main/rootme)
+- [Light](https://github.com/yuuzadev/thm/tree/main/light)

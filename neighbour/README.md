@@ -29,7 +29,11 @@ We're being redirected to ```http://machine_ip/login.php``` web page, where we c
 > Insecure Direct Object References (IDOR) are an access control vulnerability that happens when an application uses user input to access internal objects directly without checking if the user has permission.
 The app exposes a database ID, file name, or account number in the URL or request parameters. An attacker changes the ID number in the link to another value (like switching id=101 to id=102) to view or change data belonging to other users.
 
+<img width="961" height="434" alt="image" src="https://github.com/user-attachments/assets/dcc9e418-784f-4996-8210-ec75d341910a" />
+
 Here, below the "Login" button they say that we can use guest account, with instruction "(Ctrl + U)". After pressing this hotkeys, we see page's source code.
+
+<img width="919" height="587" alt="image" src="https://github.com/user-attachments/assets/21e2baf5-1119-486a-bd72-9dd94c64800e" />
 
 Almost at the end of a code there's a comment:
 ```
@@ -42,6 +46,8 @@ Almost at the end of a code there's a comment:
 The comment is ```<!-- use guest:guest credentials until registration is fixed. "admin" user account is off limits!!!!! -->```, so I used "guest" as a username and password in login form. "admin" didn't work.
 
 And we're in.
+
+<img width="1483" height="252" alt="image" src="https://github.com/user-attachments/assets/9ad1c9fc-d0bf-4304-aeed-fdc6c0bc790b" />
 
 # Exploitation
 
@@ -59,11 +65,9 @@ I just changed it to `admin`, so it looked like this:
 http://machine_ip/profile.php?user=admin
 ```
 
-And pressed Enter.
+And pressed Enter. I got redirected to admin's account page, revealing the flag.
 
-
-
-I got redirected to admin's account page, revealing the flag.
+<img width="1845" height="241" alt="image" src="https://github.com/user-attachments/assets/518be3f9-dda9-4c46-948a-eeea9b8ec6b5" />
 
 ## Lessons Learned
 

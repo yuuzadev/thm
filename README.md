@@ -11,3 +11,4 @@ Write-ups and notes for TryHackMe challenges.
 - [Fools Mate](https://github.com/yuuzadev/thm/tree/main/foolsmate)
 - [RootMe](https://github.com/yuuzadev/thm/tree/main/rootme)
 - [Light](https://github.com/yuuzadev/thm/tree/main/light)
+- [Neighbour](https://github.com/yuuzadev/thm/tree/main/neighbour)

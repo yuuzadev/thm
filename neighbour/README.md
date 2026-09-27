@@ -77,11 +77,11 @@ This is my write-up for the [Neighbour](https://tryhackme.com/room/neighbour) ro
 
 # Overview
 
-This room is about IDOR (Insecure Direct Object References) - we need to find the flag on our neighbor's logged in page.
+This room is about IDOR (Insecure Direct Object References) - we need to find the flag on our neighbour's logged in page.
 
 # Reconnaissance
 
-After getting machine IP, I opened the "cloud service", as the challenge description says.
+After getting machine IP, I opened the "cloud service", as the challenge description says ("Check out our new cloud service,..")
 
 ```
 http://machine_ip

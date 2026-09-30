@@ -1,6 +1,6 @@
 # TryHackMe — Red Challenges Write-ups
 
-| Challenge | Difficulty |
+| Name | Difficulty |
 |-----------|----------|
 | [MD2PDF](https://github.com/yuuzacode/THM-Write-Ups/tree/main/RED/md2pdf) | Easy |
 | [TakeOver](https://github.com/yuuzadev/thm/tree/main/RED/takeover) | Easy |

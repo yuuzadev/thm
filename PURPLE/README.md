@@ -1,4 +1,4 @@
-# TryHackMe - Purple Challenges Write-ups
+# TryHackMe — Purple Challenges Write-ups
 
 | Challenge | Difficulty |
 |-----------|----------|
